@@ -30,3 +30,25 @@ $colorPersonalizado.change(function() {
   // Completar para que cambie el indicador-de-color al colorActual
 
 });
+
+
+//Tomá elementos del DOM con jQuery
+//guardar a los elementos paleta y grilla-pixeles en dos variables
+
+var $paleta = $('#paleta');
+var $grillaPixeles = $('#grilla-pixeles');
+
+//Generá la paleta de colores en pantalla
+//creá una función para generar la paleta de colores: tiene que recorrer la lista de colores, nombresDeColores, y por cada color
+//crear un elemento div y asignarle un background-color: color y la clase color-paleta.
+//El elemento que cree tu función deberá ser hijo del elemento paleta
+
+function crearPaletaColores() {
+  for (var color=0; color<nombreColores.lenght; color++) {
+    var esteColor = nombreColores[color];
+    function crearDivParaCadaColor() {
+      var $nuevoDiv = $('<div>',{"class":'color-paleta'}).css({'background-color':esteColor});
+    }
+    $("#paleta").append($nuevoDiv);
+  }
+}
