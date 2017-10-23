@@ -38,17 +38,48 @@ $colorPersonalizado.change(function() {
 var $paleta = $('#paleta');
 var $grillaPixeles = $('#grilla-pixeles');
 
-//Generá la paleta de colores en pantalla
-//creá una función para generar la paleta de colores: tiene que recorrer la lista de colores, nombresDeColores, y por cada color
-//crear un elemento div y asignarle un background-color: color y la clase color-paleta.
+//GENERAR LA PALETA DE COLORES EN PANTALLAener
+
+//creá una función para generar la paleta de colores: tiene que recorrer
+//la lista de colores, nombresDeColores, y por cada color crear un elemento div
+//y asignarle un background-color: color y la clase color-paleta.
 //El elemento que cree tu función deberá ser hijo del elemento paleta
 
+//fue clave usar la sentencia: for (variable of iterable) {
+//                              statement}
+
+
 function crearPaletaColores() {
-  for (var color=0; color<nombreColores.lenght; color++) {
-    var esteColor = nombreColores[color];
-    function crearDivParaCadaColor() {
-      var $nuevoDiv = $('<div>',{"class":'color-paleta'}).css({'background-color':esteColor});
+  for (var color of nombreColores) {
+    var $nuevoDiv = $('<div />',{"class":'color-paleta'});
+    $paleta.append($nuevoDiv);
+    $nuevoDiv.css('background-color',color);
     }
-    $("#paleta").append($nuevoDiv);
+  };
+
+/*var $nombreColores = $('nombreColores');
+function (){
+  $nombreColores.each(function(){
+    var $nuevoDiv = $(this).$('<div />',{"class":'color-paleta'});
+    $paleta.append($nuevoDiv);
+    $nuevoDiv.css('background-color',"$nombreColores[$this]");
+  });
+}*/
+crearPaletaColores();
+
+
+
+//CREAR GRILLA DE PIXELES
+//pensar  cada pixel como un <div> y agregarlo a la grilla-de-pixeles .
+//Para que funcione con los recursos descargables, el tamaño de la grilla deberá
+//ser de 1749 pixeles.
+
+
+function crearGrillaPixeles() {
+  for(var i=0; i<1749; i++){
+    var $nuevoDiv = $('<div />');
+    $grillaPixeles.append($nuevoDiv);
   }
-}
+};
+
+crearGrillaPixeles();
