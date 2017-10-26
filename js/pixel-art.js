@@ -20,26 +20,19 @@ var nombreColores = ['White', 'LightYellow',
   'DimGray', 'LightSlateGray', 'DarkSlateGray', 'Black'
 ];
 
-// Variable jQuery para guardar el elemento 'color-personalizado'
-// Es decir, el que se elige con la rueda de color.
-var $colorPersonalizado = $('#color-personalizado');
-
-$colorPersonalizado.change(function() {
-  // Se guarda el color de la rueda en colorActual
-  var colorActual = $colorPersonalizado.val();
-  // Completar para que cambie el indicador-de-color al colorActual
-
-});
 
 
-//Tomá elementos del DOM con jQuery
-//guardar a los elementos paleta y grilla-pixeles en dos variables
-
+//CREO LAS VARIABLES A UTILIZAR MAS ADELANTE
 var $paleta = $('#paleta');
 var $grillaPixeles = $('#grilla-pixeles');
+var $indicadorDeColor = $('#indicador-de-color');
+var $indicadorDeColorMensaje = $('#indicador-de-color-mensaje');
+//Elemento 'color-personalizado' = color que se elige con la "rueda de color"
+var $colorPersonalizado = $('#color-personalizado');
+var mouseApretado = false;
 
-//GENERAR LA PALETA DE COLORES EN PANTALLAener
 
+//GENERAR LA PALETA DE COLORES EN PANTALLA
 //creá una función para generar la paleta de colores: tiene que recorrer
 //la lista de colores, nombresDeColores, y por cada color crear un elemento div
 //y asignarle un background-color: color y la clase color-paleta.
@@ -55,7 +48,7 @@ function crearPaletaColores() {
     $paleta.append($nuevoDiv);
     $nuevoDiv.css('background-color',color);
     }
-  };
+  }
 
 /*var $nombreColores = $('nombreColores');
 function (){
@@ -65,8 +58,6 @@ function (){
     $nuevoDiv.css('background-color',"$nombreColores[$this]");
   });
 }*/
-crearPaletaColores();
-
 
 
 //CREAR GRILLA DE PIXELES
@@ -80,6 +71,138 @@ function crearGrillaPixeles() {
     var $nuevoDiv = $('<div />');
     $grillaPixeles.append($nuevoDiv);
   }
-};
+}
 
+
+
+
+
+//DEFINIR LA SELECCION DE UN COLOR EN EL CUADRO INDICADOR
+//Crear una función para que, al hacer clic en algún color, el indicador-decolor
+//cambie y refleje la selección.
+//Por ejemplo, si cliqueamos en el color violeta, el indicador-de-color deberá cambiar a
+//violeta.
+
+
+
+function cambiarIndicadorDeColor(color){
+  $indicadorDeColor.css('background-color', color);
+  $indicadorDeColorMensaje.text(`Pincel: ${color}`);
+}
+
+function tomarColorDeLaPaleta(event) {
+  colorActual = $(event.target).css('background-color');
+  cambiarIndicadorDeColor(colorActual);
+}
+
+//tomarColorDeLaPaleta();
+//cambiarIndicadorDeColor(colorActual);
+
+
+
+
+
+
+//Funcion change: el evento de cambio se produce cuando el valor de un elemento se ha cambiado
+
+$colorPersonalizado.change(function() {
+  // Se guarda el color de la rueda en colorActual
+  //val () devuelve el atributo valor del elemento
+ colorActual = $colorPersonalizado.val();
+  cambiarIndicadorDeColor(colorActual);
+});
+
+
+
+
+
+//PROGRAMAR EL PINTADO DE PIXELES DE LA GRILLA
+//programar la funcionalidad para que el usuario pueda pintar un píxel al hacer
+//clic en un cuadrado de la grilla.
+
+
+
+//function pintarPixel(event){
+// colorActualDelIndicador = $('#indicador-de-color').css('background-color');
+//  $(event.target).css('background-color', colorActualDelIndicador);
+//}
+function pintarPixel(event){
+  colorActual = $indicadorDeColor.css("background-color");
+  $(event.target).css('background-color', colorActual);
+}
+//pintarPixel();
+
+
+
+//DETECTÁ SI EL BOTÓN DEL MOUSE ESTÁ APRETADO O NO
+//crear una variable que nos diga si el botón del mouse está o no apretado.
+//El valor de esta variable deberá cambiar cada vez que se apriete
+//el mouse y cada vez que se suelte.
+
+function alApretarMouse(){
+  mouseApretado = true;
+}
+
+function alSoltarMouse(){
+  mouseApretado = false;
+}
+
+
+/*$grillaPixeles.mousedown(function() {
+  var botonMouse = true;
+  console.log(botonMouse);
+}
+);
+
+$grillaPixeles.mouseup(function() {
+  var botonMouse = false;
+  console.log(botonMouse);
+}
+);*/
+
+/*function saber(){
+  uno = $grillaPixeles.mousedown(function() {
+    console.log(true);
+  });
+  dos = $grillaPixeles.mouseup(function() {
+    console.log(false);
+  });
+  if (uno == true) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+saber();
+var botonMouse = saber();*/
+
+
+//IMPLEMENTAR LA ACCION DE PINTAR EN MOVIMIENTO
+//Programar la funcionalidad para poder pintar con el mouse muchos
+//pixeles a la vez con sólo mantenerlo apretado y moviéndolo por la grilla.
+
+function pintarMuchosPixeles(event) {
+  if (mouseApretado) {
+    pintarPixel(event);
+  }
+}
+
+/*$grillaPixeles.mousemove(pintarPixel);
+function pintarPixeles(event){
+  while(botonMouse==true){
+  colorActual = $('#indicador-de-color').css("background-color");
+  $(event.target).css('background-color', colorActual);
+}
+}*/
+
+$grillaPixeles.mousedown(alApretarMouse);
+$grillaPixeles.mousemove(pintarMuchosPixeles);
+$(window).mouseup(alSoltarMouse);
+
+$paleta.click(tomarColorDeLaPaleta);
+$grillaPixeles.click(pintarPixel);
+
+
+crearPaletaColores();
 crearGrillaPixeles();
