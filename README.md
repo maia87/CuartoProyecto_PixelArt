@@ -5,4 +5,4 @@ El objetivo fue crear un mural pensado para que otros puedan interactuar pintand
   * HTML
   * CSS 
   * JavaScript
-  * bibliote JQuery
+  * biblioteca JQuery
